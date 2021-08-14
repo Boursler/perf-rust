@@ -1,54 +1,14 @@
-# Ruperf
+## Overview
 
-Timothy Maloney, Briana Oursler, Greg Hairfield, Sam Little, Michael Scherrer 2021
-
-Ruperf is a Rust adaptation of the [linux perf command][1], also called perf_events. Ruperf provides minimal support for the `perf stat` and `perf test` commands and is run by either its `gui` application or its command line interface driver.
-
-
-Minimal support to proof of concept these high-level commands.
-- `perf-test`: runs assorted sanity tests
-- `perf stat`: gathers performance counter statistics
-
-*Perf stat coverage* (MVP)
-
-Hardware events
-- cpu-cycles OR cycles
-- instructions 
-- L1-dcache-loads
-
-Software events
-- task-clock
-- context-switches
-
-*Perf test coverage*
-- check for libpfm4
-- check status of `perf_event_paranoid`
-- examples of how to extend test suite
-- sanity check of ruperf timing events
-
-
-The Future
-*Extend support*
-- Continue to build on `test` and `stat` coverage. Add support for `record` and `report`. `Report` gathers
-  statistics about performance and returns interesting tables or graphs.
-- Add graphs to capture interesting information from event counters.
-- Support Windows and Mac platforms.
-- Custom support for Rust program profiling.
-
+See the [overview](https://HOMS-OSS.github.io/ruperf/docs/overview) for an introduction to the project.
 
 ## Requirements
 
-Rust is required for this project.
+Rust is required for this project. To download Rustup and install Rust:
 
-It is recommended to download Rustup and install Rust.
+`curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
 
-In terminal type:
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-
-More information about installing Rust [here][3].
+[More on installing Rust][3].
 
 Linux 5.x+ is required to run this project.
 
@@ -57,7 +17,8 @@ Linux 5.x+ is required to run this project.
 To build this project:
 
 - Checkout `main` branch from github using `git clone`.
-- From top-level directory run `cargo build`. For best profiling specify `cargo build --release` as cargo will default to `debug`.
+- From top-level directory run `cargo build`. 
+  - For best profiling specify `cargo build --release` as cargo will default to `debug`.
 
 To build a sample program:
 - ```bash
@@ -97,35 +58,34 @@ To install this project:
 Verification is done through a combination of `cargo test`, manual inspection comparing output of `perf stat` with output of `ruperf` on programs as documented in pull request history, and through inspection of contributor code.
 
 ## Demo/Walkthrough
+
+Watch our demo video about `ruperf` on YouTube:
+
+[![Ruperf Demo / Walkthrough](https://i.imgur.com/dFAPTuE.png)](https://youtu.be/tS1O9fe4wSM "Ruperf Demo / Walkthrough")
+
+## Permissions
+
+This tool uses the `perf_event_open()` system call, which requires some special permissions. 
+While our tool currently checks if `perf_event_paranoid` is equal to 0,
+this is less than ideal is some situations. A way around this is to change
+the capabilities of the `ruperf` executable using [`setcap`](https://man7.org/linux/man-pages/man8/setcap.8.html). 
+
+For Linux 5.8+, use `CAP_PERFMON`; otherwise use `CAP_SYSADMIN`.
+
 ## Contributing Guidelines
 
-Ruperf is an open source project and is open to recieving contributions!
+`ruperf` is an open source project and is open to recieving contributions!
 
-Please see [`CONTRIBUTING.md`](https://github.com/HOMS-OSS/ruperf/blob/main/CONTRIBUTING.md)
+Please see [`CONTRIBUTING`](https://github.com/HOMS-OSS/ruperf/blob/main/CONTRIBUTING.md)
 
 ## Code of Conduct
 
- We are committed to providing a friendly, safe and welcoming environment for all, regardless of level of experience, gender identity and expression, sexual orientation, disability, personal appearance, body size, race, ethnicity, age, religion, nationality, or other similar characteristic.
+We are committed to providing a friendly, safe and welcoming environment for all, 
+regardless of level of experience, gender identity and expression, 
+sexual orientation, disability, personal appearance, 
+body size, race, ethnicity, age, religion, nationality, or other similar characteristic.
 
- More from [Rust Community Code of Conduct][4]
-
-## Our Contributors
-
-- Briana Oursler. My contributions to the project principally relate to the `stat` functionality performed by ruperf, including support for `read`, the `event struct`, and additions to hardware and software event counters. I implemented initial support for the CLI tool using the `structopt` crate. I worked along with Timothy Maloney on the team to set up `perf_event_open`. I collaborated with Timothy Maloney and Michael Scherrer on using `bindgen` for C code we needed bindings for that we couldn't access through `libc`, principally related to `perf_event`, and on establishing support for running a program to profile.
-
-- Sam Little. My contributions to this project were mostly contained in the `test`
-subcommand, which runs a collection of various environment checks and sanity tests
-required for `ruperf`. I tried to keep the structure of it as similar as possible
-to the real `perf test`, which is used for the same purpose. The output of `test`
-looks visually similar to `perf test`, tests can be skipped (and only some can be
-run if specified), and it can also be `>`-ed as JSON to a file with a `--json`
-flag for ease-of-programmatic-use. I also wrote some tests that relate to `ruperf`'s
-MVP, and when designing `test` tried to keep extensibility in mind so that it would
-be easy to add more complex tests later.
-
-## Further Reading
-
-See `whitepaper.tex`
+[Rust Community Code of Conduct][4]
 
 ## References
 
@@ -138,8 +98,7 @@ See `whitepaper.tex`
 ## License
 [Gplv2][2]
 
-
-
+### [Core Team](https://HOMS-OSS.github.io/ruperf/docs/team)
 
 
 

@@ -77,7 +77,7 @@ pub struct StatOptions {
     pub command: Vec<String>,
 }
 
-fn launch_command_process(
+pub fn launch_command_process(
     command: Vec<String>,
     mut child_reader: os_pipe::PipeReader,
     mut child_writer: os_pipe::PipeWriter,
@@ -130,6 +130,12 @@ pub fn run_stat(options: StatOptions) {
     if options.event.is_empty() {
         options.event.push(StatEvent::Cycles);
         options.event.push(StatEvent::Instructions);
+        options.event.push(StatEvent::TaskClock);
+        options.event.push(StatEvent::ContextSwitches);
+        options.event.push(StatEvent::L1DCacheRead);
+        options.event.push(StatEvent::L1DCacheWrite);
+        options.event.push(StatEvent::L1DCacheReadMiss);
+        options.event.push(StatEvent::L1ICacheReadMiss);
     }
 
     for event in &options.event {
