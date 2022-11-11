@@ -153,6 +153,38 @@ pub mod panes {
                                                             Message::InstructionsToggled,
                                                         )
                                                         .into(),
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content.launch_options.task_clock,
+                                                            "Task-Clock",
+                                                            Message::ClockToggled,
+                                                        )
+                                                        .into(),
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content.launch_options.context_switches,
+                                                            "Context-Switches",
+                                                            Message::CSToggled,
+                                                        )
+                                                        .into(),
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                        .into(),
+                                                    Checkbox::new(
+                                                        content.launch_options.l1d_cache_reads,
+                                                        "L1D-cache-reads",
+                                                        Message::L1DCacheReadsToggled,
+                                                    )
+                                                    .into(),
+                                                    Space::new(Length::Fill, Length::from(10))
+                                                        .into(),
+                                                    Checkbox::new(
+                                                        content.launch_options.l1d_cache_writes,
+                                                        "L1D-cache-writes",
+                                                        Message::L1DCacheWritesToggled,
+                                                    )
+                                                    .into(),
                                                     ]))
                                                     .into()
                                                 }

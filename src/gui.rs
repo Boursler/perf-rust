@@ -141,7 +141,18 @@ impl Application for Gui {
                     Message::InstructionsToggled(value) => {
                         data_state.launch_options.instructions = value;
                     }
-
+                    Message::ClockToggled(value) => {
+                        data_state.launch_options.task_clock = value;
+                    }
+                    Message::CSToggled(value) => {
+                        data_state.launch_options.context_switches = value;
+                    }
+                    Message::L1DCacheReadsToggled(value) => {
+                        data_state.launch_options.l1d_cache_reads = value;
+                    }
+                    Message::L1DCacheWritesToggled(value) => {
+                        data_state.launch_options.l1d_cache_writes = value;
+                    }
                     // Test Options
                     Message::JsonToggled(value) => {
                         data_state.launch_options.json = value;

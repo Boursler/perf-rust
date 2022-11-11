@@ -128,6 +128,18 @@ pub mod pane {
                     if self.launch_options.instructions {
                         res.push_str(" --event instructions");
                     }
+                    if self.launch_options.task_clock {
+                        res.push_str(" --event task-clock")
+                    }
+                    if self.launch_options.context_switches {
+                        res.push_str(" --event context-switches")
+                    }
+                    if self.launch_options.l1d_cache_reads {
+                        res.push_str(" --event L1D-cache-reads")
+                    }
+                    if self.launch_options.l1d_cache_reads {
+                        res.push_str(" --event L1D-cache-writes")
+                    }
                 }
 
                 perf::PerfEvent::Test => {
@@ -168,6 +180,10 @@ pub mod pane {
     pub struct Options {
         pub cycles: bool,
         pub instructions: bool,
+        pub task_clock: bool,
+        pub context_switches: bool,
+        pub l1d_cache_reads: bool,
+        pub l1d_cache_writes: bool,
         pub json: bool,
         pub list: bool,
         pub verbose: bool,
@@ -178,6 +194,10 @@ pub mod pane {
             Options {
                 cycles: false,
                 instructions: false,
+                task_clock: false,
+                context_switches: false,
+                l1d_cache_reads: false,
+                l1d_cache_writes: false,
                 json: false,
                 list: false,
                 verbose: false,
