@@ -153,6 +153,12 @@ impl Application for Gui {
                     Message::L1DCacheWritesToggled(value) => {
                         data_state.launch_options.l1d_cache_writes = value;
                     }
+                    Message::L1DCacheReadMissesToggled(value) => {
+                        data_state.launch_options.l1d_cache_read_miss = value;
+                    }
+                    Message::L1ICacheReadMissesToggled(value) => {
+                        data_state.launch_options.l1i_cache_read_miss = value;
+                    }
                     // Test Options
                     Message::JsonToggled(value) => {
                         data_state.launch_options.json = value;

@@ -157,7 +157,7 @@ pub mod panes {
                                                             .into(),
                                                         Checkbox::new(
                                                             content.launch_options.task_clock,
-                                                            "Task-Clock",
+                                                            "Task Clock",
                                                             Message::ClockToggled,
                                                         )
                                                         .into(),
@@ -165,26 +165,46 @@ pub mod panes {
                                                             .into(),
                                                         Checkbox::new(
                                                             content.launch_options.context_switches,
-                                                            "Context-Switches",
+                                                            "Context Switches",
                                                             Message::CSToggled,
                                                         )
                                                         .into(),
                                                         Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content.launch_options.l1d_cache_reads,
+                                                            "L1 Data Cache Read Hits",
+                                                            Message::L1DCacheReadsToggled,
+                                                        )
                                                         .into(),
-                                                    Checkbox::new(
-                                                        content.launch_options.l1d_cache_reads,
-                                                        "L1D-cache-reads",
-                                                        Message::L1DCacheReadsToggled,
-                                                    )
-                                                    .into(),
-                                                    Space::new(Length::Fill, Length::from(10))
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content.launch_options.l1d_cache_writes,
+                                                            "L1 Data Cache Write Hits",
+                                                            Message::L1DCacheWritesToggled,
+                                                        )
                                                         .into(),
-                                                    Checkbox::new(
-                                                        content.launch_options.l1d_cache_writes,
-                                                        "L1D-cache-writes",
-                                                        Message::L1DCacheWritesToggled,
-                                                    )
-                                                    .into(),
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content
+                                                                .launch_options
+                                                                .l1d_cache_read_miss,
+                                                            "L1 Data Cache Read Misses",
+                                                            Message::L1DCacheReadMissesToggled,
+                                                        )
+                                                        .into(),
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content
+                                                                .launch_options
+                                                                .l1i_cache_read_miss,
+                                                            "L1 Instruction Cache Read Misses",
+                                                            Message::L1ICacheReadMissesToggled,
+                                                        )
+                                                        .into(),
                                                     ]))
                                                     .into()
                                                 }

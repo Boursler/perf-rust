@@ -17,6 +17,8 @@ pub mod main {
         CSToggled(bool),
         L1DCacheReadsToggled(bool),
         L1DCacheWritesToggled(bool),
+        L1DCacheReadMissesToggled(bool),
+        L1ICacheReadMissesToggled(bool),
         JsonToggled(bool),
         ListToggled(bool),
         VerboseToggled(bool),
