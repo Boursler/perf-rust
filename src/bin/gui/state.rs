@@ -1,6 +1,7 @@
 pub mod main {
     use super::pane::*;
-    use crate::gui::widgets::task::Task;
+   // use crate::gui::widgets::task::Task;
+   use crate::widgets::task::Task;
     use iced::pane_grid::{self, Pane, Split};
 
     /// State for Gui
@@ -68,8 +69,8 @@ pub mod main {
 
 pub mod pane {
 
-    use crate::gui::events::*;
-    use crate::gui::widgets::task::Task;
+    use crate::events::*;
+    use crate::widgets::task::Task;
 
     /// States of all panes within the pane grid
     // every pane state must be held here
@@ -234,7 +235,7 @@ pub mod task {
 }
 
 pub mod save_load {
-    use crate::gui::widgets::task::Task;
+    use crate::widgets::task::Task;
     use serde::{Deserialize, Serialize};
 
     //customized from iced todo example.

@@ -2,6 +2,7 @@
 //! <p> Usage: <em> ruperf stat [COMMAND] [ARGS] </em>
 //! Where COMMAND and ARGS are a shell command and it's arguments. </p>
 
+
 extern crate structopt;
 use crate::event::open::*;
 use crate::utils::ParseError;

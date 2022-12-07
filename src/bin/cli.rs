@@ -7,18 +7,19 @@
 //! <li>gui</li>
 //! </ul>
 
-mod bindings;
-mod event;
-mod gui;
-mod stat;
-mod test;
-mod utils;
+// mod bindings;
+// mod event;
+// mod gui;
+// mod stat;
+// mod test;
+// mod utils;
 
 extern crate structopt;
-use gui::*;
-use stat::*;
+//use gui::*;
+use ruperf_profile::stat::*;
 use structopt::StructOpt;
-use test::*;
+use ruperf_profile::test::*;
+
 
 /// Define command line options.
 #[derive(Debug, StructOpt)]
@@ -37,13 +38,13 @@ enum Opt {
         about = "Runs sanity tests"
     )]
     Test(TestOptions),
-    #[structopt(
-        setting = structopt::clap::AppSettings::TrailingVarArg,
-        setting = structopt::clap::AppSettings::AllowLeadingHyphen,
-        name = "gui",
-        about = "Launches gui"
-    )]
-    Gui(GuiOptions),
+    // #[structopt(
+    //     setting = structopt::clap::AppSettings::TrailingVarArg,
+    //     setting = structopt::clap::AppSettings::AllowLeadingHyphen,
+    //     name = "gui",
+    //     about = "Launches gui"
+    // )]
+    //Gui(GuiOptions),
 }
 
 fn main() {
@@ -51,8 +52,8 @@ fn main() {
     match opt {
         Opt::Stat(x) => run_stat(x),
         Opt::Test(x) => run_test(&x),
-        Opt::Gui(x) => {
-            run_gui(&x).unwrap();
-        }
+        // Opt::Gui(x) => {
+        //     stat::run_gui(&x).unwrap();
+        // }
     }
 }

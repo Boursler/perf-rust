@@ -1,7 +1,8 @@
 pub mod main {
     use super::task::TaskMessage;
-    use crate::gui::events::perf::PerfEvent;
-    use crate::gui::state::*;
+    //use crate::gui::events::perf::PerfEvent;
+    use crate::events::perf::PerfEvent;
+    use crate::state::*;
     /// Messages to be sent to the parent widget from
     /// other child widgets, and consumed on update
     #[derive(Debug, Clone)]

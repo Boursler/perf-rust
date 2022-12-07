@@ -29,10 +29,13 @@ use state::{
 };
 use widgets::{panes, task};
 
-/// Run the Gui Launcher
-pub fn run_gui(_options: &GuiOptions) -> iced::Result {
-    Gui::run(Settings::default())
+fn main(){
+    Gui::run(Settings::default());
 }
+/// Run the Gui Launcher
+// pub fn run_gui(_options: &GuiOptions) -> iced::Result {
+//     Gui::run(Settings::default())
+// }
 
 /// Main States for all Gui elements
 enum Gui {
