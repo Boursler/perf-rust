@@ -11,8 +11,8 @@ fn main() {
     // Tell cargo to invalidate the built crate whenever the wrapper changes
     println!("cargo:rerun-if-changed=wrappers/perf_event.h");
 
-    if !Path::new("./src/bindings/").exists() {
-        if let Err(err) = create_dir("./src/bindings") {
+    if !Path::new("./src/lib/bindings/").exists() {
+        if let Err(err) = create_dir("./src/lib/bindings") {
             eprintln!("{:?}", err)
         }
     }
@@ -23,9 +23,9 @@ fn main() {
         .generate()
         .expect("Unable to generate perf_event bindings");
 
-    let out_path = PathBuf::from("./src/bindings");
+    let out_path = PathBuf::from("./src/lib/bindings");
 
     perf_bindings
         .write_to_file(out_path.join("perf_event.rs"))
-        .expect("Unable to write perf_event bindings to ./src/bindings/perf_event.rs");
+        .expect("Unable to write perf_event bindings to ./src/lib/bindings/perf_event.rs");
 }

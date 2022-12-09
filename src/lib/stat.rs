@@ -2,7 +2,7 @@
 //! <p> Usage: <em> ruperf stat [COMMAND] [ARGS] </em>
 //! Where COMMAND and ARGS are a shell command and it's arguments. </p>
 
-extern crate structopt;
+
 use crate::event::open::*;
 use crate::utils::ParseError;
 use os_pipe::pipe;
@@ -11,7 +11,6 @@ use std::os::unix::process::CommandExt;
 use std::process::Command;
 use std::str::{self, FromStr};
 use std::time::Instant;
-use structopt::StructOpt;
 
 /// Supported events
 #[derive(Debug, Copy, Clone)]
@@ -62,21 +61,6 @@ impl ToString for StatEvent {
     }
 }
 
-/// Configuration settings for running stat. A program to profile is a required
-/// argument. Default events will run on that program if no events are
-/// specified. Specify events using the flag `-e or --event`. See `./ruperf stat
-/// --help' for more information.
-#[derive(Debug, StructOpt)]
-pub struct StatOptions {
-    #[structopt(short, long, help = "Event to collect", number_of_values = 1)]
-    pub event: Vec<StatEvent>,
-
-    // Allows multiple arguments to be passed, collects everything remaining on
-    // the command line
-    #[structopt(required = true, help = "Command to run")]
-    pub command: Vec<String>,
-}
-
 struct Counter {
     event: Event,
     start: isize,
@@ -85,21 +69,21 @@ struct Counter {
 
 impl Counter {
     /// Generate list of timers for a given `pid`.
-    pub fn counters(options: &mut StatOptions, pid: i32) -> Vec<Counter> {
+    pub fn counters(options: &mut Vec<StatEvent>, pid: i32) -> Vec<Counter> {
         let mut counters: Vec<Counter> = Vec::new();
 
-        if options.event.is_empty() {
-            options.event.push(StatEvent::Cycles);
-            options.event.push(StatEvent::Instructions);
-            options.event.push(StatEvent::TaskClock);
-            options.event.push(StatEvent::ContextSwitches);
-            options.event.push(StatEvent::L1DCacheRead);
-            options.event.push(StatEvent::L1DCacheWrite);
-            options.event.push(StatEvent::L1DCacheReadMiss);
-            options.event.push(StatEvent::L1ICacheReadMiss);
+        if options.is_empty() {
+            options.push(StatEvent::Cycles);
+            options.push(StatEvent::Instructions);
+            options.push(StatEvent::TaskClock);
+            options.push(StatEvent::ContextSwitches);
+            options.push(StatEvent::L1DCacheRead);
+            options.push(StatEvent::L1DCacheWrite);
+            options.push(StatEvent::L1DCacheReadMiss);
+            options.push(StatEvent::L1ICacheReadMiss);
         }
 
-        for event in &options.event {
+        for event in options {
             counters.push(Counter {
                 event: Event::new(*event, Some(pid)),
                 start: 0,
@@ -144,11 +128,10 @@ pub fn launch_stat_process(
 
 /// Run perf stat on the given command and event combinations.
 /// Currently starts and stops a cycles timer in serial for each event specified.
-pub fn run_stat(options: StatOptions) {
+pub fn run_stat(mut events: Vec<StatEvent>, command: Vec<String>) {
     // In future rather than starting and stopping counter
     // in series for each event, events will have the ability
     // to be added in groups that will coordinate their timing.
-    let mut options = options;
 
     let (reader, mut writer) = pipe().unwrap();
     let (mut parent_reader, parent_writer) = pipe().unwrap();
@@ -158,11 +141,11 @@ pub fn run_stat(options: StatOptions) {
     let instant = Instant::now();
     let pid_child = launch_stat_process(
         instant.clone(),
-        options.command.clone(),
+        command.clone(),
         child_reader,
         child_writer,
     );
-    let mut counters = Counter::counters(&mut options, pid_child);
+    let mut counters = Counter::counters(&mut events, pid_child);
 
     let mut buffer: [u8; 16] = [0; 16];
     let mut status: libc::c_int = 0;
@@ -189,7 +172,7 @@ pub fn run_stat(options: StatOptions) {
 
     println!(
         "Performance counter stats for '{}:'\n",
-        options.command.get(0).unwrap()
+        command.get(0).unwrap()
     );
 
     for counter in counters {

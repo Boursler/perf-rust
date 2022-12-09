@@ -29,10 +29,13 @@ use state::{
 };
 use widgets::{panes, task};
 
-/// Run the Gui Launcher
-pub fn run_gui(_options: &GuiOptions) -> iced::Result {
-    Gui::run(Settings::default())
+fn main(){
+    Gui::run(Settings::default());
 }
+/// Run the Gui Launcher
+// pub fn run_gui(_options: &GuiOptions) -> iced::Result {
+//     Gui::run(Settings::default())
+// }
 
 /// Main States for all Gui elements
 enum Gui {
@@ -141,7 +144,24 @@ impl Application for Gui {
                     Message::InstructionsToggled(value) => {
                         data_state.launch_options.instructions = value;
                     }
-
+                    Message::ClockToggled(value) => {
+                        data_state.launch_options.task_clock = value;
+                    }
+                    Message::CSToggled(value) => {
+                        data_state.launch_options.context_switches = value;
+                    }
+                    Message::L1DCacheReadsToggled(value) => {
+                        data_state.launch_options.l1d_cache_reads = value;
+                    }
+                    Message::L1DCacheWritesToggled(value) => {
+                        data_state.launch_options.l1d_cache_writes = value;
+                    }
+                    Message::L1DCacheReadMissesToggled(value) => {
+                        data_state.launch_options.l1d_cache_read_miss = value;
+                    }
+                    Message::L1ICacheReadMissesToggled(value) => {
+                        data_state.launch_options.l1i_cache_read_miss = value;
+                    }
                     // Test Options
                     Message::JsonToggled(value) => {
                         data_state.launch_options.json = value;
@@ -296,7 +316,7 @@ fn run_program(task: &task::Task, data_state: &mut Content) {
     use std::process::Command;
     use std::str;
 
-    let output = Command::new("./ruperf")
+    let output = Command::new("./cli")
         .args(task.command.split(' '))
         .output()
         .expect("failed to execute process");

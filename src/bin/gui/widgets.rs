@@ -9,12 +9,12 @@ pub mod panes {
         Align, Element, Length,
     };
 
-    use crate::gui::events::perf::PerfEvent;
-    use crate::gui::messages::main::Message;
-    use crate::gui::state::pane;
-    use crate::gui::state::pane::Context;
-    use crate::gui::state::pane::PaneType;
-    use crate::gui::style;
+    use crate::events::perf::PerfEvent;
+    use crate::messages::main::Message;
+    use crate::state::pane;
+    use crate::state::pane::Context;
+    use crate::state::pane::PaneType;
+    use crate::style;
 
     // pub fn panes(panes_state: Content)
     pub fn new(panes_state: &'_ mut pane_grid::State<pane::Content>) -> PaneGrid<'_, Message> {
@@ -153,6 +153,58 @@ pub mod panes {
                                                             Message::InstructionsToggled,
                                                         )
                                                         .into(),
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content.launch_options.task_clock,
+                                                            "Task Clock",
+                                                            Message::ClockToggled,
+                                                        )
+                                                        .into(),
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content.launch_options.context_switches,
+                                                            "Context Switches",
+                                                            Message::CSToggled,
+                                                        )
+                                                        .into(),
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content.launch_options.l1d_cache_reads,
+                                                            "L1 Data Cache Read Hits",
+                                                            Message::L1DCacheReadsToggled,
+                                                        )
+                                                        .into(),
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content.launch_options.l1d_cache_writes,
+                                                            "L1 Data Cache Write Hits",
+                                                            Message::L1DCacheWritesToggled,
+                                                        )
+                                                        .into(),
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content
+                                                                .launch_options
+                                                                .l1d_cache_read_miss,
+                                                            "L1 Data Cache Read Misses",
+                                                            Message::L1DCacheReadMissesToggled,
+                                                        )
+                                                        .into(),
+                                                        Space::new(Length::Fill, Length::from(10))
+                                                            .into(),
+                                                        Checkbox::new(
+                                                            content
+                                                                .launch_options
+                                                                .l1i_cache_read_miss,
+                                                            "L1 Instruction Cache Read Misses",
+                                                            Message::L1ICacheReadMissesToggled,
+                                                        )
+                                                        .into(),
                                                     ]))
                                                     .into()
                                                 }
@@ -220,10 +272,10 @@ pub mod panes {
 }
 
 pub mod task {
-    use crate::gui::events::perf;
-    use crate::gui::messages::task::TaskMessage;
-    use crate::gui::state::task::TaskState;
-    use crate::gui::style;
+    use crate::events::perf;
+    use crate::messages::task::TaskMessage;
+    use crate::state::task::TaskState;
+    use crate::style;
     use iced::{
         widget::{button, Button, Column, Text},
         Element, Length,

@@ -1,6 +1,7 @@
 pub mod main {
     use super::pane::*;
-    use crate::gui::widgets::task::Task;
+   // use crate::gui::widgets::task::Task;
+   use crate::widgets::task::Task;
     use iced::pane_grid::{self, Pane, Split};
 
     /// State for Gui
@@ -68,8 +69,8 @@ pub mod main {
 
 pub mod pane {
 
-    use crate::gui::events::*;
-    use crate::gui::widgets::task::Task;
+    use crate::events::*;
+    use crate::widgets::task::Task;
 
     /// States of all panes within the pane grid
     // every pane state must be held here
@@ -128,6 +129,24 @@ pub mod pane {
                     if self.launch_options.instructions {
                         res.push_str(" --event instructions");
                     }
+                    if self.launch_options.task_clock {
+                        res.push_str(" --event task-clock")
+                    }
+                    if self.launch_options.context_switches {
+                        res.push_str(" --event context-switches")
+                    }
+                    if self.launch_options.l1d_cache_reads {
+                        res.push_str(" --event L1D-cache-reads")
+                    }
+                    if self.launch_options.l1d_cache_writes {
+                        res.push_str(" --event L1D-cache-writes")
+                    }
+                    if self.launch_options.l1d_cache_read_miss {
+                        res.push_str(" --event L1D-cache-read-misses")
+                    }
+                    if self.launch_options.l1i_cache_read_miss {
+                        res.push_str(" --event L1I-cache-read-misses")
+                    }
                 }
 
                 perf::PerfEvent::Test => {
@@ -168,6 +187,12 @@ pub mod pane {
     pub struct Options {
         pub cycles: bool,
         pub instructions: bool,
+        pub task_clock: bool,
+        pub context_switches: bool,
+        pub l1d_cache_reads: bool,
+        pub l1d_cache_writes: bool,
+        pub l1d_cache_read_miss: bool,
+        pub l1i_cache_read_miss: bool,
         pub json: bool,
         pub list: bool,
         pub verbose: bool,
@@ -178,6 +203,12 @@ pub mod pane {
             Options {
                 cycles: false,
                 instructions: false,
+                task_clock: false,
+                context_switches: false,
+                l1d_cache_reads: false,
+                l1d_cache_writes: false,
+                l1d_cache_read_miss: false,
+                l1i_cache_read_miss: false,
                 json: false,
                 list: false,
                 verbose: false,
@@ -204,7 +235,7 @@ pub mod task {
 }
 
 pub mod save_load {
-    use crate::gui::widgets::task::Task;
+    use crate::widgets::task::Task;
     use serde::{Deserialize, Serialize};
 
     //customized from iced todo example.
