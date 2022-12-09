@@ -16,9 +16,6 @@ mod paranoid;
 mod pfm;
 mod testutils;
 
-extern crate structopt;
-use structopt::StructOpt;
-
 /// Test Struct
 pub struct Test {
     pub name: String,
@@ -36,69 +33,31 @@ pub enum TestResult {
     Skipped,
 }
 
-/// Configuration settings for running test
-#[derive(Debug, StructOpt)]
-pub struct TestOptions {
-    // Verbose flag, provides additional output
-    #[structopt(short = "v", long = "verbose", help = "provide additional output")]
-    pub verbose: bool,
-
-    // Should list runnable tests instead of performing them
-    #[structopt(
-        short = "l",
-        long = "list",
-        help = "list runnable tests instead of running"
-    )]
-    pub should_list: bool,
-
-    // Should format output as json
-    #[structopt(short = "j", long = "json", help = "format output as json")]
-    pub json: bool,
-
-    // A comma-seperated list of tests to skip
-    #[structopt(
-        short = "s",
-        long = "skip",
-        help = "a comma-seperated list of tests to skip",
-        default_value = ""
-    )]
-    pub to_skip: String,
-
-    // A comma-seperated list of tests to run
-    #[structopt(
-        short = "o",
-        long = "only",
-        help = "a comma-seperated list of tests to run",
-        default_value = ""
-    )]
-    pub to_run: String,
-}
-
 pub struct RunSettings {
     pub verbose: bool,
     pub json: bool,
 }
 
 /// Handles the running of the "test" command.
-pub fn run_test(options: &TestOptions) {
+pub fn run_test(verbose: bool, should_list: bool, json: bool, skip: String, to_run: String) {
     let mut to_skip: Vec<String> = Vec::new();
     let tests = testutils::make_tests();
-    if !options.to_skip.is_empty() {
-        for s in options.to_skip.split(',') {
+    if !skip.is_empty() {
+        for s in skip.split(',') {
             to_skip.push(s.to_string());
         }
     }
-    if options.should_list {
+    if should_list {
         testutils::list_all_tests(&tests);
         return;
     }
     let settings = RunSettings {
-        verbose: options.verbose || options.json,
-        json: options.json,
+        verbose: verbose || json,
+        json: json,
     };
-    if !options.to_run.is_empty() {
+    if !to_run.is_empty() {
         to_skip = (0..tests.len()).map(|x| x.to_string()).collect();
-        for s in options.to_run.split(',') {
+        for s in to_run.split(',') {
             to_skip.retain(|x| *x != s);
         }
     }
