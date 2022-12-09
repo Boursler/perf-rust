@@ -316,7 +316,7 @@ fn run_program(task: &task::Task, data_state: &mut Content) {
     use std::process::Command;
     use std::str;
 
-    let output = Command::new("./ruperf")
+    let output = Command::new("./cli")
         .args(task.command.split(' '))
         .output()
         .expect("failed to execute process");
